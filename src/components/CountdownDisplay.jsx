@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useTimer } from '../context/TimerContext';
 import './CountdownDisplay.css';
 
@@ -19,12 +20,12 @@ export default function CountdownDisplay() {
     const getStatusMessage = () => {
         const hoursRemaining = remainingSeconds / 3600;
         if (isComplete) return '🎉 Time\'s Up! Great work everyone! 🎉';
-        if (!hasStarted) return '🚀 Ready to begin the hackathon!';
+        if (!hasStarted) return '🚀 Ready to ignite the innovation!';
         if (!isRunning) return '⏸️ Timer Paused';
-        if (hoursRemaining > 22) return '🚀 Hackathon Started! Let the innovation begin!';
+        if (hoursRemaining > 22) return '🚀 Prajwalan Ignited! Let the innovation begin!';
         if (hoursRemaining > 18) return '💡 Great start! Keep brainstorming those ideas!';
         if (hoursRemaining > 12) return '⚡ Keep going! Stay focused and energized!';
-        if (hoursRemaining > 6) return '🔥 In the zone! Your project is taking shape!';
+        if (hoursRemaining > 6) return '🚀 In the zone! Your project is taking shape!';
         if (hoursRemaining > 3) return '🏃 Sprint mode! Time to polish your work!';
         if (hoursRemaining > 1) return '⚠️ Final hours! Get ready to present!';
         if (hoursRemaining > 0.5) return '🎯 Last 30 minutes! Wrap up your code!';
@@ -57,12 +58,14 @@ export default function CountdownDisplay() {
                 ></div>
             </div>
 
-            {/* Start Button - only show if timer hasn't started */}
-            {!hasStarted && (
-                <button className="start-button" onClick={start}>
-                    🚀 START HACKATHON
-                </button>
-            )}
+            {/* Start Button - animate out instead of unmounting */}
+            <button
+                className={`start-button ${hasStarted ? 'hidden' : ''}`}
+                onClick={!hasStarted ? start : undefined}
+                disabled={hasStarted}
+            >
+                IGNITE PRAJWALAN
+            </button>
 
             <div className="status-container">
                 <p className="status-message">{getStatusMessage()}</p>

@@ -11,40 +11,25 @@ export function TimerProvider({ children }) {
     const [hasStarted, setHasStarted] = useState(false); // Track if timer has ever been started
     const [startTimestamp, setStartTimestamp] = useState(null);
 
-    // Load saved state on mount
+    // Clear any existing saved state on mount to always start fresh
     useEffect(() => {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) {
-            const { timestamp, remaining, running, started } = JSON.parse(saved);
-            if (started) {
-                setHasStarted(true);
-                if (running) {
-                    const elapsed = Math.floor((Date.now() - timestamp) / 1000);
-                    setRemainingSeconds(Math.max(0, remaining - elapsed));
-                    setIsRunning(true);
-                } else {
-                    setRemainingSeconds(remaining);
-                    setIsRunning(false);
-                }
-            }
-            setStartTimestamp(timestamp);
-        }
+        localStorage.removeItem(STORAGE_KEY);
     }, []);
 
-    // Save state periodically
-    useEffect(() => {
-        const saveState = () => {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify({
-                timestamp: Date.now(),
-                remaining: remainingSeconds,
-                running: isRunning,
-                started: hasStarted
-            }));
-        };
-        saveState();
-        const interval = setInterval(saveState, 10000);
-        return () => clearInterval(interval);
-    }, [remainingSeconds, isRunning, hasStarted]);
+    // Save state periodically - DISABLED to prevent auto-restart on reload
+    // useEffect(() => {
+    //     const saveState = () => {
+    //         localStorage.setItem(STORAGE_KEY, JSON.stringify({
+    //             timestamp: Date.now(),
+    //             remaining: remainingSeconds,
+    //             running: isRunning,
+    //             started: hasStarted
+    //         }));
+    //     };
+    //     saveState();
+    //     const interval = setInterval(saveState, 10000);
+    //     return () => clearInterval(interval);
+    // }, [remainingSeconds, isRunning, hasStarted]);
 
     // Countdown logic
     useEffect(() => {

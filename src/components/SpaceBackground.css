@@ -1,0 +1,168 @@
+.space-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+    background-color: #000;
+}
+
+.particles-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* Base styles for celestial bodies */
+.celestial-body {
+    position: absolute;
+    z-index: 2;
+    opacity: 0;
+}
+
+.celestial-body.visible {
+    opacity: 1;
+}
+
+.earth {
+    left: 0%;
+    top: 55%;
+    /* Lowered from 45% */
+    transform: translateY(-50%);
+    width: 750px;
+    height: 750px;
+}
+
+.earth.visible {
+    /* Sequence: Entrance (2s) -> Float (Infinite) */
+    animation: earthEntrance 2s ease-out forwards, floatEarth 6s ease-in-out infinite 2s;
+}
+
+.moon {
+    right: 0%;
+    top: 55%;
+    /* Lowered from 45% */
+    transform: translateY(-50%);
+    width: 750px;
+    height: 750px;
+}
+
+.moon.visible {
+    animation: moonEntrance 2s ease-out forwards, floatMoon 6s ease-in-out infinite 2s;
+}
+
+/* 
+   Entrance Animations (2s)
+*/
+@keyframes earthEntrance {
+    0% {
+        transform: translateY(-50%) translateX(-80%) scale(3);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-50%) translateX(10%) scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes moonEntrance {
+    0% {
+        transform: translateY(-50%) translateX(80%) scale(3);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-50%) translateX(-10%) scale(1);
+        opacity: 1;
+    }
+}
+
+/* 
+   Float Animations
+*/
+@keyframes floatEarth {
+
+    0%,
+    100% {
+        transform: translateY(-50%) translateX(10%) scale(1) translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-50%) translateX(10%) scale(1) translateY(-15px);
+    }
+}
+
+@keyframes floatMoon {
+
+    0%,
+    100% {
+        transform: translateY(-50%) translateX(-10%) scale(1) translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-50%) translateX(-10%) scale(1) translateY(-15px);
+    }
+}
+
+
+.earth img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 0 30px rgba(64, 156, 255, 0.4));
+}
+
+.moon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.3));
+}
+
+/* Trajectory Path */
+.trajectory-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    filter: drop-shadow(0 0 8px rgba(0, 243, 255, 1));
+}
+
+.trajectory-path {
+    stroke-dasharray: 2000;
+    /* Increased to 2000 to prevent block glitch */
+    stroke-dashoffset: 2000;
+    opacity: 0;
+    /* Hidden initially */
+    /* Sequence: 
+       - Wait 2s (Planets settling)
+       - Fade In instantly at 2s
+       - Draw Path for 1.5s (2s to 3.5s)
+    */
+    animation:
+        fadeInPath 0.1s linear forwards 2s,
+        drawPath 1.5s linear forwards 2s;
+    stroke: rgba(0, 243, 255, 0.8);
+    stroke-width: 3px;
+}
+
+@keyframes drawPath {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes fadeInPath {
+    to {
+        opacity: 1;
+    }
+}

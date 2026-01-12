@@ -1,0 +1,275 @@
+/* Space Orbit Container */
+.space-orbit-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* Orbital Path SVG */
+.orbital-path {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 1400px;
+    height: 100%;
+    opacity: 0.6;
+}
+
+.orbit-line {
+    animation: pulse-glow 3s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+
+    0%,
+    100% {
+        opacity: 0.6;
+        stroke-width: 3;
+    }
+
+    50% {
+        opacity: 1;
+        stroke-width: 4;
+    }
+}
+
+/* Celestial Bodies */
+.celestial-body {
+    position: absolute;
+    z-index: 6;
+}
+
+.celestial-body img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+}
+
+/* Earth - Bottom Left */
+.earth {
+    bottom: 8%;
+    left: 5%;
+    width: clamp(120px, 15vw, 220px);
+    height: clamp(120px, 15vw, 220px);
+}
+
+.earth-glow {
+    background: radial-gradient(circle, rgba(0, 243, 255, 0.4) 0%, transparent 70%);
+}
+
+/* Moon - Bottom Right */
+.moon {
+    bottom: 8%;
+    right: 5%;
+    width: clamp(100px, 12vw, 180px);
+    height: clamp(100px, 12vw, 180px);
+}
+
+.moon-glow {
+    background: radial-gradient(circle, rgba(188, 19, 254, 0.3) 0%, transparent 70%);
+}
+
+.planet-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 150%;
+    height: 150%;
+    filter: blur(30px);
+    animation: planet-pulse 4s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes planet-pulse {
+
+    0%,
+    100% {
+        opacity: 0.5;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    50% {
+        opacity: 0.8;
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+}
+
+/* Spaceship Wrapper - follows the path */
+.spaceship-wrapper {
+    position: absolute;
+    width: clamp(80px, 10vw, 150px);
+    height: clamp(60px, 8vw, 120px);
+    z-index: 7;
+
+    /* Position along the quadratic bezier curve */
+    /* Using custom calculation based on progress */
+    --t: calc(var(--progress) / 100);
+
+    /* Quadratic Bezier: P = (1-t)²P0 + 2(1-t)tP1 + t²P2 */
+    /* P0 = (850, 450), P1 = (500, 50), P2 = (150, 450) */
+    --x: calc((1 - var(--t)) * (1 - var(--t)) * 850 + 2 * (1 - var(--t)) * var(--t) * 500 + var(--t) * var(--t) * 150);
+    --y: calc((1 - var(--t)) * (1 - var(--t)) * 450 + 2 * (1 - var(--t)) * var(--t) * 50 + var(--t) * var(--t) * 450);
+
+    left: 50%;
+    top: 0;
+    transform: translate(calc(-50% + (var(--x) - 500) * (min(100vw, 1400px) / 1000)),
+            calc((var(--y) * (100vh / 600))));
+
+    transition: transform 1s linear;
+}
+
+.spaceship-wrapper.moving {
+    /* Smooth continuous movement */
+    animation: none;
+}
+
+.spaceship-wrapper.paused {
+    /* Slight hover effect when paused */
+    animation: hover-float 3s ease-in-out infinite;
+}
+
+@keyframes hover-float {
+
+    0%,
+    100% {
+        transform: translate(calc(-50% + (var(--x) - 500) * (min(100vw, 1400px) / 1000)),
+                calc((var(--y) * (100vh / 600)))) translateY(0);
+    }
+
+    50% {
+        transform: translate(calc(-50% + (var(--x) - 500) * (min(100vw, 1400px) / 1000)),
+                calc((var(--y) * (100vh / 600)))) translateY(-10px);
+    }
+}
+
+/* Spaceship Image */
+.spaceship {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 0 15px rgba(0, 243, 255, 0.6));
+    position: relative;
+    z-index: 2;
+}
+
+/* Flame Trail */
+.flame-trail {
+    position: absolute;
+    right: 60%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 80px;
+    height: 40px;
+    z-index: 1;
+}
+
+.flame-particle {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 60px;
+    height: 30px;
+    background: linear-gradient(to left,
+            rgba(255, 69, 0, 0.9) 0%,
+            rgba(255, 140, 0, 0.7) 30%,
+            rgba(255, 165, 0, 0.5) 60%,
+            rgba(255, 200, 100, 0.3) 80%,
+            transparent 100%);
+    border-radius: 50%;
+    filter: blur(3px);
+    animation: flame-flicker 0.15s ease-in-out infinite alternate;
+}
+
+.flame-1 {
+    animation-delay: 0s;
+    width: 70px;
+    height: 35px;
+}
+
+.flame-2 {
+    animation-delay: 0.05s;
+    width: 60px;
+    height: 28px;
+    opacity: 0.8;
+}
+
+.flame-3 {
+    animation-delay: 0.1s;
+    width: 50px;
+    height: 22px;
+    opacity: 0.6;
+}
+
+@keyframes flame-flicker {
+    0% {
+        transform: translateY(-50%) scaleX(1) scaleY(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-50%) scaleX(0.95) scaleY(1.05);
+        opacity: 0.85;
+    }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .earth {
+        width: clamp(80px, 18vw, 140px);
+        height: clamp(80px, 18vw, 140px);
+        bottom: 5%;
+        left: 3%;
+    }
+
+    .moon {
+        width: clamp(70px, 15vw, 120px);
+        height: clamp(70px, 15vw, 120px);
+        bottom: 5%;
+        right: 3%;
+    }
+
+    .spaceship-wrapper {
+        width: clamp(60px, 12vw, 100px);
+        height: clamp(45px, 9vw, 75px);
+    }
+
+    .flame-trail {
+        width: 50px;
+        height: 25px;
+    }
+
+    .flame-particle {
+        width: 40px;
+        height: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .earth {
+        width: 70px;
+        height: 70px;
+    }
+
+    .moon {
+        width: 60px;
+        height: 60px;
+    }
+
+    .spaceship-wrapper {
+        width: 50px;
+        height: 40px;
+    }
+
+    .orbital-path {
+        opacity: 0.4;
+    }
+}
