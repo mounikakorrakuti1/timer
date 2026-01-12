@@ -27,12 +27,12 @@ const SpaceBackground = ({ hasStarted }) => {
                 >
                     {/* 
                         Path coordinates in 0-100 space:
-                        Start: 25, 55 (Reverted to 25)
-                        Control: 55, 15 
-                        End: 80, 55 (Reverted to 80)
+                        Start: 25, 55 (Earth Edge)
+                        Control: 52.5, 15 (Centered X: (25+80)/2 = 52.5)
+                        End: 80, 55 (Moon Edge)
                     */}
                     <path
-                        d="M 25 55 Q 55 15 80 55"
+                        d="M 25 55 Q 52.5 15 80 55"
                         fill="none"
                         stroke="rgba(0, 243, 255, 0.8)"
                         strokeWidth="0.5"
