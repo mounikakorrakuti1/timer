@@ -79,6 +79,7 @@
     background: linear-gradient(135deg, var(--neon-cyan), transparent, var(--neon-purple));
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     mask-composite: exclude;
     pointer-events: none;
 }
@@ -141,6 +142,62 @@
     transition: width 1s linear;
     box-shadow: 0 0 15px var(--neon-cyan);
 }
+
+/* Percentage Display */
+.percentage-display {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-family: 'Orbitron', monospace;
+}
+
+.percentage-value {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.percentage-value.start {
+    color: var(--neon-cyan);
+    text-shadow: 0 0 10px var(--neon-cyan);
+}
+
+.percentage-value.low {
+    color: #00d4ff;
+    text-shadow: 0 0 10px #00d4ff;
+}
+
+.percentage-value.medium {
+    color: var(--neon-purple);
+    text-shadow: 0 0 10px var(--neon-purple);
+}
+
+.percentage-value.high {
+    color: var(--neon-pink);
+    text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink);
+    animation: percentage-pulse 1s ease-in-out infinite;
+}
+
+@keyframes percentage-pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.percentage-label {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 2px;
+}
+
 
 /* Start Button */
 .start-button {
@@ -351,5 +408,70 @@
 
     .time-separator {
         font-size: 1.5rem;
+    }
+}
+
+/* Last 10 seconds pop animation */
+
+.pop-animate {
+    display: inline-block;
+    color: #ffd700 !important;
+    animation: numberPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.4) forwards;
+    text-shadow:
+        0 0 20px rgba(255, 215, 0, 0.8),
+        0 0 50px rgba(255, 215, 0, 0.6),
+        0 0 100px rgba(255, 69, 0, 0.4) !important;
+}
+
+@keyframes numberPop {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+        filter: blur(10px);
+    }
+
+    40% {
+        transform: scale(1.5);
+        opacity: 1;
+        filter: blur(0);
+    }
+
+    70% {
+        transform: scale(0.9);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.critical-block {
+    border-color: #ffd700 !important;
+    box-shadow: 0 0 40px rgba(255, 215, 0, 0.3) !important;
+    animation: blockCriticalPulse 1s ease-in-out infinite alternate;
+    background: rgba(255, 215, 0, 0.05) !important;
+}
+
+.critical-block::after {
+    background: linear-gradient(135deg, #ffd700, transparent, #ff4500) !important;
+}
+
+.critical-block .time-unit {
+    color: #ffd700 !important;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+@keyframes blockCriticalPulse {
+    0% {
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.2) !important;
+        border-color: rgba(255, 215, 0, 0.5) !important;
+        transform: scale(1);
+    }
+
+    100% {
+        box-shadow: 0 0 60px rgba(255, 215, 0, 0.6) !important;
+        border-color: #ffd700 !important;
+        transform: scale(1.02);
     }
 }

@@ -17,8 +17,9 @@
 .app {
   position: relative;
   width: 100vw;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
   color: white;
   font-family: 'Orbitron', sans-serif;
 }
@@ -31,7 +32,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  min-height: 100vh;
   width: 100%;
   padding: 2rem;
   box-sizing: border-box;
@@ -55,12 +56,17 @@
 }
 
 .header {
-  margin-top: -4rem;
-  /* Pull header up */
-  margin-bottom: 14rem;
-  /* Increase gap for path */
+  margin-top: 2rem;
+  /* Position logo properly on screen */
+  margin-bottom: 4rem;
+  /* Closer to timer initially */
   z-index: 10;
   transition: margin 0.5s ease-out;
+}
+
+.container.started .header {
+  margin-bottom: 4rem;
+  /* Keep stable */
 }
 
 .logo-container {

@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect, useCallback } from 'rea
 
 const TimerContext = createContext(null);
 
-const TOTAL_DURATION_SECONDS = 24 * 60 * 60; // 24 hours
+const TOTAL_DURATION_SECONDS = 86400; // 24 hours (24 * 60 * 60)
 const STORAGE_KEY = 'prajwalan2k26_react_timer';
 
 export function TimerProvider({ children }) {
@@ -10,6 +10,8 @@ export function TimerProvider({ children }) {
     const [isRunning, setIsRunning] = useState(false); // Start paused
     const [hasStarted, setHasStarted] = useState(false); // Track if timer has ever been started
     const [startTimestamp, setStartTimestamp] = useState(null);
+    const [showStartAnimation, setShowStartAnimation] = useState(false);
+    const [showEndAnimation, setShowEndAnimation] = useState(false);
 
     // Clear any existing saved state on mount to always start fresh
     useEffect(() => {
@@ -33,17 +35,33 @@ export function TimerProvider({ children }) {
 
     // Countdown logic
     useEffect(() => {
-        if (!isRunning || remainingSeconds <= 0) return;
+        if (!isRunning || remainingSeconds <= 0) {
+            if (remainingSeconds === 0 && hasStarted) {
+                setShowEndAnimation(true);
+            }
+            return;
+        }
 
         const interval = setInterval(() => {
-            setRemainingSeconds(prev => Math.max(0, prev - 1));
+            setRemainingSeconds(prev => {
+                const newValue = Math.max(0, prev - 1);
+                if (newValue === 0) {
+                    setShowEndAnimation(true);
+                }
+                return newValue;
+            });
         }, 1000);
 
         return () => clearInterval(interval);
-    }, [isRunning, remainingSeconds]);
+    }, [isRunning, remainingSeconds, hasStarted]);
 
     // Timer controls
     const start = useCallback(() => {
+        setShowStartAnimation(true);
+    }, []);
+
+    const onStartAnimationComplete = useCallback(() => {
+        setShowStartAnimation(false);
         setHasStarted(true);
         setIsRunning(true);
         if (!startTimestamp) {
@@ -59,12 +77,16 @@ export function TimerProvider({ children }) {
         setIsRunning(false);
         setHasStarted(false);
         setStartTimestamp(null);
+        setShowStartAnimation(false);
+        setShowEndAnimation(false);
         localStorage.removeItem(STORAGE_KEY);
     }, []);
 
     const setTime = useCallback((hours, minutes, seconds) => {
         const total = (hours * 3600) + (minutes * 60) + seconds;
-        setRemainingSeconds(Math.max(0, Math.min(TOTAL_DURATION_SECONDS, total)));
+        // Allow setting any reasonable time (up to 99 hours for flexibility)
+        const maxAllowedSeconds = 99 * 3600; // 99 hours max
+        setRemainingSeconds(Math.max(0, Math.min(maxAllowedSeconds, total)));
     }, []);
 
     const skipForward = useCallback((seconds = 3600) => {
@@ -72,17 +94,22 @@ export function TimerProvider({ children }) {
     }, []);
 
     const skipBackward = useCallback((seconds = 3600) => {
-        setRemainingSeconds(prev => Math.min(TOTAL_DURATION_SECONDS, prev + seconds));
+        const maxAllowedSeconds = 99 * 3600; // 99 hours max
+        setRemainingSeconds(prev => Math.min(maxAllowedSeconds, prev + seconds));
     }, []);
 
     const progress = 1 - (remainingSeconds / TOTAL_DURATION_SECONDS);
+    const percentage = ((TOTAL_DURATION_SECONDS - remainingSeconds) / TOTAL_DURATION_SECONDS) * 100;
 
     const value = {
         remainingSeconds,
         isRunning,
         hasStarted,
         progress,
+        percentage,
         totalDuration: TOTAL_DURATION_SECONDS,
+        showStartAnimation,
+        showEndAnimation,
         start,
         pause,
         toggle,
@@ -90,6 +117,7 @@ export function TimerProvider({ children }) {
         setTime,
         skipForward,
         skipBackward,
+        onStartAnimationComplete,
     };
 
     return (

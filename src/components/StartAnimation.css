@@ -1,0 +1,362 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap');
+
+/* Main Overlay Container */
+.cyber-boot-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #0a0a1a;
+    z-index: 9999;
+    overflow: hidden;
+    font-family: 'Orbitron', sans-serif;
+    color: #00f3ff;
+    perspective: 1000px;
+}
+
+/* ----------------------------------------------------
+   Phase 1 & 4: The Cyber Grid (Tron/System feel)
+   ---------------------------------------------------- */
+.cyber-grid-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    z-index: 1;
+}
+
+.cyber-grid-floor,
+.cyber-grid-ceiling {
+    position: absolute;
+    width: 200%;
+    /* Wider to cover rotation edges */
+    height: 200%;
+    left: -50%;
+    background-image:
+        linear-gradient(rgba(0, 243, 255, 0.3) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 243, 255, 0.3) 1px, transparent 1px);
+    background-size: 50px 50px;
+    z-index: 1;
+    opacity: 0;
+    /* Starts hidden */
+    transition: opacity 0.5s ease-out;
+}
+
+.cyber-grid-floor {
+    bottom: -50%;
+    transform-origin: center bottom;
+    transform: rotateX(60deg);
+    box-shadow: 0 -50px 100px rgba(0, 243, 255, 0.1) inset;
+    /* Horizon glow */
+}
+
+.cyber-grid-ceiling {
+    top: -50%;
+    transform-origin: center top;
+    transform: rotateX(-60deg);
+    box-shadow: 0 50px 100px rgba(0, 243, 255, 0.1) inset;
+}
+
+/* Animations based on phase */
+.phase-grid_load .cyber-grid-floor,
+.phase-grid_load .cyber-grid-ceiling,
+.phase-system_check .cyber-grid-floor,
+.phase-system_check .cyber-grid-ceiling,
+.phase-identity .cyber-grid-floor,
+.phase-identity .cyber-grid-ceiling {
+    opacity: 1;
+    animation: gridScroll 2s linear infinite;
+}
+
+.phase-immerse .cyber-grid-floor,
+.phase-immerse .cyber-grid-ceiling {
+    opacity: 1;
+    animation: gridScroll 0.2s linear infinite;
+    /* Hyper speed */
+    filter: brightness(2);
+    /* Brighter during jump */
+}
+
+@keyframes gridScroll {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 0 50px;
+    }
+}
+
+/* ----------------------------------------------------
+   Phase 2: System Diagnostics (HUD Layout)
+   ---------------------------------------------------- */
+.system-diagnostics {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.corner-text {
+    position: absolute;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    line-height: 1.6;
+    color: rgba(0, 243, 255, 0.7);
+    text-shadow: 0 0 5px rgba(0, 243, 255, 0.5);
+}
+
+.corner-text.top-left {
+    top: 40px;
+    left: 40px;
+    border-left: 2px solid #00f3ff;
+    padding-left: 15px;
+}
+
+.corner-text.bottom-right {
+    bottom: 40px;
+    right: 40px;
+    text-align: right;
+    border-right: 2px solid #ffd700;
+    /* Gold accent */
+    padding-right: 15px;
+    color: rgba(255, 215, 0, 0.8);
+}
+
+.status-ok {
+    color: #00ff00;
+    margin-left: 10px;
+}
+
+.status-pending {
+    color: #ffd700;
+    margin-left: 10px;
+    animation: blink 1s infinite;
+}
+
+.blink-text {
+    animation: blink 0.5s infinite step-end;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+/* Geometric Loader - Sharp, No Blur */
+.geo-loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 150px;
+    height: 150px;
+}
+
+.geo-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid transparent;
+}
+
+.geo-ring.outer {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-top: 2px solid #00f3ff;
+    border-bottom: 2px solid #00f3ff;
+    animation: spin 2s linear infinite;
+    box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+}
+
+.geo-ring.inner {
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    border-left: 2px solid #ffd700;
+    border-right: 2px solid #ffd700;
+    animation: spinReverse 1.5s linear infinite;
+}
+
+.geo-core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle, #00f3ff 0%, transparent 70%);
+    border: 1px solid rgba(0, 243, 255, 0.5);
+    border-radius: 50%;
+    animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes spinReverse {
+    100% {
+        transform: rotate(-360deg);
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0.9;
+    }
+}
+
+
+/* ----------------------------------------------------
+   Phase 3: Identity Verification (Matrix + Gold Stamp)
+   ---------------------------------------------------- */
+.identity-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 20;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.cyber-text-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.cyber-title {
+    font-size: 5rem;
+    font-weight: 800;
+    letter-spacing: 5px;
+    margin: 0;
+    /* Electric Cyan with Gradient */
+    background: linear-gradient(180deg, #fff 0%, #00f3ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 5px rgba(0, 243, 255, 0.8));
+    text-transform: uppercase;
+}
+
+.cyber-underline {
+    height: 2px;
+    background: #00f3ff;
+    width: 0%;
+    margin: 0 auto;
+    animation: expandLine 0.5s ease-out forwards;
+    box-shadow: 0 0 10px #00f3ff;
+}
+
+@keyframes expandLine {
+    to {
+        width: 100%;
+    }
+}
+
+/* Gold Subtitle Box */
+.cyber-subtitle-box {
+    background: rgba(255, 215, 0, 0.1);
+    border: 1px solid #ffd700;
+    padding: 5px 20px;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    margin-top: 10px;
+    /* Initial state for animation */
+    opacity: 0;
+    animation: fadeInUp 0.5s ease-out 0.5s forwards;
+    /* Delay to appear after title */
+}
+
+/* Scanline for box */
+.cyber-subtitle-box::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.5), transparent);
+    animation: scanPass 2s linear infinite;
+}
+
+.scramble-text {
+    color: #ffd700;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scanPass {
+    0% {
+        left: -100%;
+    }
+
+    100% {
+        left: 100%;
+    }
+}
+
+
+/* ----------------------------------------------------
+   Global Effects
+   ---------------------------------------------------- */
+.cyber-vignette {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, transparent 30%, #0a0a1a 100%);
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* Immerse phase transition */
+.phase-immerse .identity-container {
+    animation: zoomInFade 0.5s forwards;
+}
+
+@keyframes zoomInFade {
+    to {
+        transform: translate(-50%, -50%) scale(5);
+        opacity: 0;
+    }
+}

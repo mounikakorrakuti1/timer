@@ -1,0 +1,428 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap');
+
+/* Main Container - Full Screen Overlay */
+.cyber-end-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #0a0a1a;
+    z-index: 9999;
+    overflow: hidden;
+    font-family: 'Orbitron', sans-serif;
+    color: #ffffff;
+    perspective: 1200px;
+    z-index: 9999;
+    overflow-y: auto;
+    /* Allow scrolling if content is too tall */
+    /* Essential for 3D effects */
+}
+
+/* ----------------------------------------------------
+   Phase 1: Singularity Implosion
+   ---------------------------------------------------- */
+.cyber-implosion-core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+}
+
+.implosion-ring {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 2px solid #00f3ff;
+    border-radius: 50%;
+    animation: implode 1s ease-in forwards;
+    box-shadow: 0 0 20px #00f3ff;
+}
+
+.implosion-particles {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200vw;
+    height: 2px;
+    background: transparent;
+    transform: translate(-50%, -50%);
+    /* Simulate radial lines sucking in */
+    background-image: linear-gradient(90deg, transparent 40%, rgba(255, 215, 0, 0.8) 50%, transparent 60%);
+    animation: suckIn 1s ease-in forwards;
+}
+
+@keyframes implode {
+    0% {
+        transform: scale(5);
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(0);
+        opacity: 1;
+    }
+}
+
+@keyframes suckIn {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg) scale(1);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) rotate(180deg) scale(0);
+        opacity: 1;
+    }
+}
+
+
+/* ----------------------------------------------------
+   Phase 2: Digital Supernova
+   ---------------------------------------------------- */
+.cyber-supernova {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.shockwave-grid {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border: 2px solid #00f3ff;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(0, 243, 255, 0.2) 0%, transparent 60%);
+    animation: expandWave 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+
+.shockwave-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border: 50px solid rgba(255, 215, 0, 0.5);
+    /* Gold ring */
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: ringBlast 0.6s ease-out forwards;
+}
+
+@keyframes expandWave {
+    to {
+        width: 300vmax;
+        height: 300vmax;
+        opacity: 0;
+    }
+}
+
+@keyframes ringBlast {
+    to {
+        width: 200vmax;
+        height: 200vmax;
+        border-width: 0;
+        opacity: 0;
+    }
+}
+
+
+/* ----------------------------------------------------
+   Phase 3 & 4: Trophy & Report
+   ---------------------------------------------------- */
+.mission-complete-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transform-style: preserve-3d;
+}
+
+/* 3D Wireframe Trophy (Pyramid) */
+.cyber-trophy {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    transform-style: preserve-3d;
+    animation: rotateTrophy 10s linear infinite;
+    transition: all 1s ease-in-out;
+}
+
+.cyber-trophy.minimized {
+    transform: translateY(-50px) scale(0.6) rotateX(20deg) rotateY(45deg);
+    margin-bottom: -50px;
+    /* Pull content up slightly */
+    /* Moves up for stats */
+}
+
+/* Trophy Sides */
+.trophy-pyramid {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+}
+
+.side {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 100px solid transparent;
+    border-right: 100px solid transparent;
+    border-bottom: 200px solid rgba(0, 243, 255, 0.1);
+    /* Slight fill */
+    left: 0;
+    bottom: 0;
+    transform-origin: 50% 100%;
+}
+
+/* Creating the pyramid shape manually with CSS transforms */
+.side.front {
+    transform: rotateX(30deg) translateZ(58px);
+    border-bottom-color: rgba(0, 243, 255, 0.2);
+}
+
+.side.back {
+    transform: rotateY(180deg) rotateX(30deg) translateZ(58px);
+    border-bottom-color: rgba(0, 243, 255, 0.3);
+}
+
+.side.left {
+    transform: rotateY(-90deg) rotateX(30deg) translateZ(58px);
+    border-bottom-color: rgba(0, 243, 255, 0.2);
+}
+
+.side.right {
+    transform: rotateY(90deg) rotateX(30deg) translateZ(58px);
+    border-bottom-color: rgba(0, 243, 255, 0.3);
+}
+
+/* Edges highlighting */
+.doc-note {
+    /* Purely visual comment: The borders below create the neon wireframe look */
+}
+
+.side::after {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: -95px;
+    /* Offset for internal wire */
+    width: 0;
+    height: 0;
+    border-left: 95px solid transparent;
+    border-right: 95px solid transparent;
+    border-bottom: 190px solid transparent;
+    /* Hollow center */
+    border-bottom: 0;
+    /* Removing inner fill */
+}
+
+/* Just using simple borders on a container for the wireframe effect is tricky with triangles.
+   New Strategy: Use gradients on the triangle borders to simulate edges */
+
+.side {
+    /* Reset borders to be sharp lines */
+    border-bottom: 200px solid rgba(0, 243, 255, 0.15);
+    /* Outline effect using drop-shadow filter on the triangle shape */
+    filter: drop-shadow(0 0 2px #00f3ff) drop-shadow(0 0 5px #00f3ff);
+}
+
+
+@keyframes rotateTrophy {
+    0% {
+        transform: rotateY(0deg);
+    }
+
+    100% {
+        transform: rotateY(360deg);
+    }
+}
+
+
+/* ----------------------------------------------------
+   Phase 4: Report Interface (HUD/Data Blocks)
+   ---------------------------------------------------- */
+.cyber-report {
+    position: relative;
+    /* Changed from absolute to flow naturally in flex container */
+    /* top: 55%;  Removed to allow proper centering */
+    width: 80%;
+    max-width: 1000px;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s ease-out;
+}
+
+.cyber-report.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.mission-title {
+    font-size: 4rem;
+    font-weight: 900;
+    letter-spacing: 5px;
+    margin: 0;
+    background: linear-gradient(180deg, #fff, #ffd700);
+    /* White to gold */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+}
+
+.mission-subtitle {
+    font-size: 1.2rem;
+    margin-top: 10px;
+    letter-spacing: 3px;
+    color: #00f3ff;
+    text-transform: uppercase;
+}
+
+.status-success {
+    color: #00ff00;
+    font-weight: bold;
+    text-shadow: 0 0 5px #00ff00;
+}
+
+/* Stats Grid */
+.cyber-stats-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.data-block {
+    background: rgba(10, 10, 26, 0.8);
+    border: 1px solid rgba(0, 243, 255, 0.3);
+    padding: 20px;
+    min-width: 200px;
+    position: relative;
+    /* Corner accents */
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.1);
+}
+
+.data-block::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    width: 20px;
+    height: 20px;
+    border-top: 2px solid #00f3ff;
+    border-left: 2px solid #00f3ff;
+}
+
+.data-block::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    right: -1px;
+    width: 20px;
+    height: 20px;
+    border-bottom: 2px solid #00f3ff;
+    border-right: 2px solid #00f3ff;
+}
+
+.data-block.highlight {
+    border-color: #ffd700;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+}
+
+.data-block.highlight::before,
+.data-block.highlight::after {
+    border-color: #ffd700;
+}
+
+.block-header {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: left;
+    margin-bottom: 10px;
+    font-family: monospace;
+}
+
+.block-content {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 5px;
+}
+
+.huge-stat {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.data-block.highlight .huge-stat {
+    color: #ffd700;
+    /* Gold */
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+}
+
+.unit {
+    font-size: 1rem;
+    color: #00f3ff;
+    font-weight: 600;
+}
+
+.block-footer {
+    margin-top: 15px;
+    font-size: 0.7rem;
+    text-align: right;
+    color: #00f3ff;
+    opacity: 0.7;
+    letter-spacing: 1px;
+}
+
+
+
+
+/* ----------------------------------------------------
+   Overlay Effects
+   ---------------------------------------------------- */
+.scanline-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(0deg,
+            transparent,
+            transparent 2px,
+            rgba(0, 243, 255, 0.03) 2px,
+            rgba(0, 243, 255, 0.03) 4px);
+    pointer-events: none;
+    z-index: 100;
+}
+
+.vignette-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, transparent 40%, #0a0a1a 100%);
+    pointer-events: none;
+    z-index: 90;
+}

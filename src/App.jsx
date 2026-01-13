@@ -1,8 +1,9 @@
 import { TimerProvider } from './context/TimerContext';
 import SpaceBackground from './components/SpaceBackground';
-import Spaceship from './components/Spaceship';
 import CountdownDisplay from './components/CountdownDisplay';
 import AdminPanel from './components/AdminPanel';
+import StartAnimation from './components/StartAnimation';
+import EndAnimation from './components/EndAnimation';
 import './App.css';
 
 function App() {
@@ -17,12 +18,17 @@ function App() {
 import { useTimer } from './context/TimerContext';
 
 function AppContent() {
-  const { progress, hasStarted } = useTimer();
+  const { hasStarted, showStartAnimation, showEndAnimation, onStartAnimationComplete } = useTimer();
 
   return (
     <div className="app">
       <SpaceBackground hasStarted={hasStarted} />
-      <Spaceship progress={progress} hasStarted={hasStarted} />
+
+      {/* Start Animation Overlay */}
+      {showStartAnimation && <StartAnimation onComplete={onStartAnimationComplete} />}
+
+      {/* End Animation Overlay */}
+      <EndAnimation show={showEndAnimation} />
 
       <div className={`container ${hasStarted ? 'started' : ''}`}>
         {/* Header with Logo */}

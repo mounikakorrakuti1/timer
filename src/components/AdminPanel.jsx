@@ -128,7 +128,7 @@ export default function AdminPanel() {
                         <input
                             type="number"
                             min="0"
-                            max="24"
+                            max="99"
                             value={hours}
                             onChange={(e) => setHours(e.target.value)}
                         />

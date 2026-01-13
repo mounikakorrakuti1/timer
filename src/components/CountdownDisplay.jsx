@@ -7,7 +7,7 @@ function padZero(num) {
 }
 
 export default function CountdownDisplay() {
-    const { remainingSeconds, isRunning, hasStarted, start, totalDuration } = useTimer();
+    const { remainingSeconds, isRunning, hasStarted, start, totalDuration, percentage } = useTimer();
 
     const hours = Math.floor(remainingSeconds / 3600);
     const minutes = Math.floor((remainingSeconds % 3600) / 60);
@@ -29,8 +29,10 @@ export default function CountdownDisplay() {
         if (hoursRemaining > 3) return '🏃 Sprint mode! Time to polish your work!';
         if (hoursRemaining > 1) return '⚠️ Final hours! Get ready to present!';
         if (hoursRemaining > 0.5) return '🎯 Last 30 minutes! Wrap up your code!';
-        return '⏰ Final countdown! Submit your project!';
+        return '';
     };
+
+    const isLast10Seconds = remainingSeconds <= 10 && remainingSeconds > 0 && hasStarted;
 
     return (
         <div className={`countdown-container ${isComplete ? 'ended' : ''}`}>
@@ -46,8 +48,13 @@ export default function CountdownDisplay() {
                     <span className="time-unit">MINUTES</span>
                 </div>
                 <span className="time-separator">:</span>
-                <div className="time-block">
-                    <span className="time-value">{padZero(seconds)}</span>
+                <div className={`time-block ${isLast10Seconds ? 'critical-block' : ''}`}>
+                    <span
+                        key={isLast10Seconds ? seconds : 'static'}
+                        className={`time-value ${isLast10Seconds ? 'pop-animate' : ''}`}
+                    >
+                        {padZero(seconds)}
+                    </span>
                     <span className="time-unit">SECONDS</span>
                 </div>
             </div>
@@ -57,6 +64,19 @@ export default function CountdownDisplay() {
                     style={{ width: `${progressPercentage}%` }}
                 ></div>
             </div>
+
+            {/* Percentage Display */}
+            {hasStarted && (
+                <div className="percentage-display">
+                    <span className={`percentage-value ${percentage >= 75 ? 'high' :
+                        percentage >= 50 ? 'medium' :
+                            percentage >= 25 ? 'low' : 'start'
+                        }`}>
+                        {percentage.toFixed(1)}%
+                    </span>
+                    <span className="percentage-label">COMPLETE</span>
+                </div>
+            )}
 
             {/* Start Button - animate out instead of unmounting */}
             <button
