@@ -41,10 +41,10 @@
 }
 
 .earth img {
-    width: 600px;
-    height: 600px;
+    width: 750px;
+    height: 750px;
     object-fit: contain;
-    filter: drop-shadow(0 0 60px rgba(0, 243, 255, 0.7));
+    filter: drop-shadow(0 0 70px rgba(0, 243, 255, 0.8));
     /* Cyan Glow */
 }
 

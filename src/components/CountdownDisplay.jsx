@@ -33,6 +33,7 @@ export default function CountdownDisplay() {
     };
 
     const isLast10Seconds = remainingSeconds <= 10 && remainingSeconds > 0 && hasStarted;
+    const isLast5Seconds = remainingSeconds <= 5 && remainingSeconds > 0 && hasStarted;
 
     return (
         <div className={`countdown-container ${isComplete ? 'ended' : ''}`}>
@@ -48,10 +49,10 @@ export default function CountdownDisplay() {
                     <span className="time-unit">MINUTES</span>
                 </div>
                 <span className="time-separator">:</span>
-                <div className={`time-block ${isLast10Seconds ? 'critical-block' : ''}`}>
+                <div className={`time-block ${isLast10Seconds ? (isLast5Seconds ? 'critical-block-red' : 'critical-block') : ''}`}>
                     <span
                         key={isLast10Seconds ? seconds : 'static'}
-                        className={`time-value ${isLast10Seconds ? 'pop-animate' : ''}`}
+                        className={`time-value ${isLast10Seconds ? (isLast5Seconds ? 'pop-animate-red' : 'pop-animate') : ''}`}
                     >
                         {padZero(seconds)}
                     </span>

@@ -78,7 +78,7 @@ export default function EndAnimation({ show }) {
 
                     {/* Main Text - Appears in Report Phase */}
                     <div className={`cyber-report ${phase === 'report' ? 'visible' : ''}`}>
-                        <h1 className="mission-title" data-text="HACKATHON COMPLETE">HACKATHON COMPLETE</h1>
+                        <h1 className="mission-title" data-text="MISSION COMPLETE">MISSION COMPLETE</h1>
                         <div className="mission-subtitle">SYSTEM STATUS: <span className="status-success">OPTIMAL</span></div>
 
                         {/* Data Blocks for Stats */}
