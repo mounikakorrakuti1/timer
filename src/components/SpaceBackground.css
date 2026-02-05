@@ -1,0 +1,114 @@
+.space-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+    background-color: #000;
+}
+
+.particles-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* Base styles for celestial bodies */
+.celestial-body {
+    position: absolute;
+    z-index: 2;
+    opacity: 0;
+    top: 50%;
+}
+
+.celestial-body.visible {
+    opacity: 1;
+}
+
+/* Earth - Left Edge (Half Visible) */
+.earth {
+    left: 0%;
+    transform: translate(-50%, -50%);
+}
+
+.earth.visible {
+    animation: earthEntrance 2s ease-out forwards, earthRotate 120s linear infinite 2s;
+}
+
+.earth img {
+    width: 750px;
+    height: 750px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 70px rgba(0, 243, 255, 0.8));
+    /* Cyan Glow */
+}
+
+/* Moon - Right Edge (Half Visible) */
+.moon {
+    right: 0%;
+    left: auto;
+    transform: translate(50%, -50%);
+}
+
+.moon.visible {
+    animation: moonEntrance 2s ease-out forwards, moonRotate 60s linear infinite 2s;
+}
+
+.moon img {
+    width: 400px;
+    height: 400px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 50px rgba(255, 215, 0, 0.6));
+    /* Gold Glow */
+}
+
+/* Entrance Animations */
+@keyframes earthEntrance {
+    from {
+        left: -20%;
+        opacity: 0;
+    }
+
+    to {
+        left: 0%;
+        opacity: 1;
+    }
+}
+
+@keyframes moonEntrance {
+    from {
+        right: -20%;
+        opacity: 0;
+    }
+
+    to {
+        right: 0%;
+        opacity: 1;
+    }
+}
+
+/* Rotation Animations */
+@keyframes earthRotate {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+@keyframes moonRotate {
+    from {
+        transform: translate(50%, -50%) rotate(0deg);
+    }
+
+    to {
+        transform: translate(50%, -50%) rotate(360deg);
+    }
+}
